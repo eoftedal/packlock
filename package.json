@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/eoftedal/packlock/"
+    "url": "https://github.com/eoftedal/packlock.git"
   },
   "keywords": [
     "whitelist",
@@ -17,9 +17,9 @@
   "author": "Erlend Oftedal",
   "license": "ISC",
   "dependencies": {
-    "commander": "2.0.x",
+    "commander": "^2.2.0",
     "read-installed": "^2.0.3",
     "semver": "^2.2.1",
-    "underscore": "1.4.x"
+    "underscore": "^1.6.0"
   }
 }
