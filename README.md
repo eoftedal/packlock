@@ -1,8 +1,17 @@
 Lockdown your modules by specifying a list of approved modules and versions (with semver). Packlock will scan against this list and report modules that are unapproved or at an unapproved version.
 
+
+
 Usage
 -----
 
+Install
+
+```shell
+npm install -g packlock
+```
+
+Usage:
 ```
 packlock [options]
 
