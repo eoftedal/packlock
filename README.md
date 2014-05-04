@@ -11,11 +11,11 @@ Usage
     -V, --version          output the version number
 
     -s, --scanpath [path]  Directory to scan for packages. Defaults to current directory
-    -l, --list [path]      Location of whitelist. Defaults to current directory
+    -w, --whitelist [path] Location of whitelist. Defaults to current directory
 
 Example:
 
-    packlock -l /our/global/policy.json -s /usr/local/nodeapp/
+    packlock -w /our/global/policy.json -s /usr/local/nodeapp/
 
 
 Specifying the policy

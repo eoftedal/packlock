@@ -15,16 +15,16 @@ program
   .version(version)
   .option('')
   .option('-s, --scanpath [path]', 'Directory to scan for packages. Defaults to current directory', '.')
-  .option('-l, --list [path]', 'Location of whitelist. Defaults to current directory', '.')
+  .option('-w, --whitelist [path]', 'Location of whitelist. Defaults to current directory', '.')
   .parse(process.argv);
 
-var config = _.pick(program, [ 'scanpath', 'list']);
+var config = _.pick(program, [ 'scanpath', 'whitelist']);
 
-if (fs.statSync(config.list).isDirectory()) {
-	config.list = path.resolve(config.list, 'packlock.json');
+if (fs.statSync(config.whitelist).isDirectory()) {
+	config.whitelist = path.resolve(config.whitelist, 'packlock.json');
 }
-if (!fs.existsSync(config.list)) {
-	console.error('Cannot read ' + config.list);
+if (!fs.existsSync(config.whitelist)) {
+	console.error('Cannot read ' + config.whitelist);
 	process.exit(1);
 }
 if (!fs.existsSync(config.scanpath)) {
@@ -36,10 +36,11 @@ if (!fs.statSync(config.scanpath).isDirectory()) {
 	process.exit(1);
 }
 
-console.log('Reading whitelisted modules from ' + config.list)
-fs.readFile(config.list, function(err, data) {
+console.log('Reading whitelisted modules from ' + config.whitelist)
+fs.readFile(config.whitelist, function(err, data) {
 	if (err) {
-		console.error('Cannot read whitelist ' + config.list);
+		console.error('Cannot read whitelist ' + config.whitelist);
+		process.exit(1);
 	} else {
 		events.emit('whitelist-read', JSON.parse(data));
 	}

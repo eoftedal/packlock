@@ -1,28 +1,29 @@
 {
-  "name": "packlock",
+  "name": "grunt-packlock",
   "version": "0.0.2",
   "description": "Whitelisting of node modules",
-  "main": "bin/padlock",
-  "scripts": {
-    "test": "test"
-  },
-  "bugs": {
-    "url": "https://github.com/eoftedal/packlock/issues"
-  },
+  "main": "Gruntfile.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/eoftedal/packlock.git"
   },
+  "bugs": {
+    "url": "https://github.com/eoftedal/packlock/issues"
+  },
   "keywords": [
     "whitelist",
-    "audit"
+    "audit",
+    "grunt",
+    "plugin"
   ],
   "author": "Erlend Oftedal",
   "license": "ISC",
   "dependencies": {
-    "commander": "^2.2.0",
+    "grunt": "^0.4.4",
     "read-installed": "^2.0.3",
-    "semver": "^2.2.1",
-    "underscore": "^1.6.0"
+    "semver": "^2.2.1"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.4"
   }
 }
