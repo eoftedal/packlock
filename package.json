@@ -1,0 +1,25 @@
+{
+  "name": "packlock",
+  "version": "0.0.1",
+  "description": "Whitelisting of node modules",
+  "main": "bin/padlock",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eoftedal/packlock/"
+  },
+  "keywords": [
+    "whitelist",
+    "audit"
+  ],
+  "author": "Erlend Oftedal",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "2.0.x",
+    "read-installed": "^2.0.3",
+    "semver": "^2.2.1",
+    "underscore": "1.4.x"
+  }
+}

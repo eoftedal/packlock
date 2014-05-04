@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+
+function SUCCESS {
+	$* && echo -e "\033[32mSUCCESS" || echo -e "\033[31mFAIL"
+	echo -en "\033[0m"
+}
+
+function SHOULD_ERROR {
+	$* && echo -e "\033[31mFAIL" || echo -e "\033[32mSUCCESS"
+	echo -en "\033[0m"
+}
+
+
+SUCCESS bin/packlock -s spec -l spec/request-approved.json
+echo "-----"
+
+SHOULD_ERROR bin/packlock -s spec -l spec/request-not-approved.json 
+
+
+echo "-----"
+
+SHOULD_ERROR bin/packlock -s spec -l spec/request-not-approved-at-this-version.json
+
+
+echo ""
