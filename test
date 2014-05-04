@@ -14,15 +14,15 @@ function SHOULD_ERROR {
 }
 
 
-SUCCESS bin/packlock -s spec -l spec/request-approved.json
+SUCCESS bin/packlock -s spec -w spec/request-approved.json
 echo "-----"
 
-SHOULD_ERROR bin/packlock -s spec -l spec/request-not-approved.json 
+SHOULD_ERROR bin/packlock -s spec -w spec/request-not-approved.json 
 
 
 echo "-----"
 
-SHOULD_ERROR bin/packlock -s spec -l spec/request-not-approved-at-this-version.json
+SHOULD_ERROR bin/packlock -s spec -w spec/request-not-approved-at-this-version.json
 
 
 echo ""

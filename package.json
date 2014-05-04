@@ -1,6 +1,6 @@
 {
   "name": "packlock",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Whitelisting of node modules",
   "main": "bin/padlock",
   "scripts": {
