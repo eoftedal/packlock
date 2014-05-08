@@ -12,7 +12,8 @@ module.exports = function (grunt) {
 		var done = this.async();
 		var config = this.options({
 		    scanpath : '.',
-		    whitelist : '.'
+		    whitelist : '.',
+		    recurse : false,
 		});
 		grunt.log.writeln(JSON.stringify(config));
 		if (fs.statSync(config.whitelist).isDirectory()) {
@@ -43,28 +44,39 @@ module.exports = function (grunt) {
 
 		var success = true;
 		var printed = false;
-		grunt.event.on('bad-found', function(pkginfo, name, error) {
-			success = false;
-			if (!printed) {
-				grunt.log.warn('Module: ' + pkginfo.name + ' ' + pkginfo.version);
-				printed = true;
-			}
-			grunt.log.warn(' ' + String.fromCharCode(8627) + ' ' + name + ' ' + pkginfo.dependencies[name].version + ' ' + error);
-		});
-
 
 		grunt.event.once('whitelist-read', function(whitelist) {
+		        var namestack=[];
+		        var bads=[];
+                        function checkDependencyTree(modules) {
+                          for (var module in modules.dependencies) {
+                            namestack.push(module);
+                            var tmpStack=namestack.slice();
+                            tmpStack.pop();
+                            if (!whitelist[module]) {
+                              bads.push({crumbs:tmpStack.join(' : '), name:module, version:modules.dependencies[module].version, error:'not allowed'});
+                            } else if (!semver.satisfies(modules.dependencies[module].version, whitelist[module])) {
+                              bads.push({crumbs:tmpStack.join(' : '), name:module, version:modules.dependencies[module].version, error:'is only allowed in version ' + whitelist[module]});
+                            }
+                            if (config.recurse) checkDependencyTree(modules.dependencies[module]);
+                            namestack.pop();
+                          }
+                        }
+
 			grunt.log.writeln('Reading modules in ' + path.resolve(config.scanpath))
 			readInstalled(config.scanpath, {}, function (er, pkginfo) {
-				for (var i in pkginfo.dependencies) {
-					if (!whitelist[i]) {
-						grunt.event.emit('bad-found', pkginfo, i, 'not allowed');
-						continue;
-					}
-					if (!semver.satisfies(pkginfo.dependencies[i].version, whitelist[i])) {
-						grunt.event.emit('bad-found', pkginfo, i, 'is only allowed in version ' + whitelist[i]);
-					}
-				}
+			        namestack.push(pkginfo.name);
+				checkDependencyTree(pkginfo);
+                                bads.sort(function(a,b){return a.crumbs.localeCompare(b.crumbs);});
+                                var previousCrumbs='';
+                                for (var i=0; i<bads.length; i++) {
+                                    success = false;
+                                    if (bads[i].crumbs!=previousCrumbs) {
+                                        previousCrumbs=bads[i].crumbs;
+                                        grunt.log.warn('Module: ' + bads[i].crumbs);
+                                    }
+                                    grunt.log.warn(' ' + String.fromCharCode(8627) + ' ' + bads[i].name + ' ' + bads[i].version + ' ' + bads[i].error);
+                                }
 				grunt.event.emit('done');
 			});
 		});
