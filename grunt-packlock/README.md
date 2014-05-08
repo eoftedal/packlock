@@ -21,7 +21,8 @@ Config
 		packlock: {
 			scan: {
 				options: {
-					whitelist: 'test/packlock.json'
+					whitelist: 'test/packlock.json',
+					recurse: true
 				}
 			}
 		}
