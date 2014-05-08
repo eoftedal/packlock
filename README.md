@@ -22,6 +22,7 @@ Options:
 
 -s, --scanpath [path]  Directory to scan for packages. Defaults to current directory
 -w, --whitelist [path] Location of whitelist. Defaults to current directory
+-r, --recurse          Scan transitive dependencies
 ```
 
 Example:

@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+
+var fs		 = require('fs'),
+	program  = require('commander'),
+	path	 = require('path'),
+	_		 = require('underscore')._,
+	packlock = require('../lib/packlock');
+
+var version = "0.0.1"
+
+
+program
+  .version(version)
+  .option('')
+  .option('-s, --scanpath [path]', 'Directory to scan for packages. Defaults to current directory', '.')
+  .option('-w, --whitelist [path]', 'Location of whitelist. Defaults to current directory', '.')
+  .option('-r, --recurse', 'Scan transitive dependencies')
+  .parse(process.argv);
+
+var config = _.pick(program, [ 'scanpath', 'whitelist', 'recurse']);
+
+if (fs.statSync(config.whitelist).isDirectory()) {
+	config.whitelist = path.resolve(config.whitelist, 'packlock.json');
+}
+if (!fs.existsSync(config.whitelist)) {
+	console.error('Cannot read ' + config.whitelist);
+	process.exit(1);
+}
+if (!fs.existsSync(config.scanpath)) {
+	console.error('Cannot scan non-existent directory: ' + config.scanpath);
+	process.exit(1);
+}
+if (!fs.statSync(config.scanpath).isDirectory()) {
+	console.error('Scan path should be a directory');
+	process.exit(1);
+}
+
+config.log = {info: console.log, warn: console.warn };
+
+console.log('Reading whitelisted modules from ' + config.whitelist)
+fs.readFile(config.whitelist, function(err, data) {
+	if (err) {
+		console.error('Cannot read whitelist ' + config.whitelist);
+		process.exit(1);
+	} else {
+		whitelist = JSON.parse(data);
+		packlock.scan(config, whitelist, function(success) { process.exit(success ? 0 : 1); });
+	}
+});
+
+
+

@@ -1,6 +1,6 @@
 {
   "name": "grunt-packlock",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Whitelisting of node modules",
   "main": "Gruntfile.js",
   "repository": {
@@ -20,8 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "grunt": "^0.4.4",
-    "read-installed": "^2.0.3",
-    "semver": "^2.2.1"
+    "packlock": "0.0.5"
   },
   "peerDependencies": {
     "grunt": "~0.4.4"

@@ -11,7 +11,8 @@ module.exports = function (grunt) {
 			},
 			fail: {
 				options: {
-					whitelist: 'test/packlock-fail.json'
+					whitelist: 'test/packlock-fail.json',
+					recurse: false
 				}
 			}
 

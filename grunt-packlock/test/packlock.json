@@ -1,5 +1,6 @@
 {
     "grunt": "^0.4.4",
     "read-installed": "^2.0.3",
-    "semver": "^2.2.1"
+    "semver": "^2.2.1",
+    "packlock": "^0.0.5"
 }
